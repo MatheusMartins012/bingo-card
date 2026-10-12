@@ -10,7 +10,7 @@ function Button({
 
   const variants = {
     primary:
-      'bg-amber-400 text-slate-950 hover:bg-amber-300',
+      'bg-amber-400 text-slate-950 hover:bg-amber-300 cursor-pointer',
     secondary:
       'border border-white/20 text-white hover:bg-white/10',
   }

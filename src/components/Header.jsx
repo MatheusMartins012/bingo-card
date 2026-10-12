@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 function Header() {
   return (
-    <header className="border-b border-white/10 bg-slate-950 text-white">
+    <header className="border-b border-white/10 bg-slate-950 text-white sm:grid-cols-2 lg:grid-cols-3">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
         <Link to="/" className="text-xl font-extrabold tracking-tight">
           Bingo<span className="text-amber-400">Premiado</span>
