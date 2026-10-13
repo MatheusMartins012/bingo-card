@@ -8,6 +8,8 @@ import Home from '../pages/Home'
 import Premios from '../pages/Premios'
 import Cartelas from '../pages/Cartelas'
 import Evento from '../pages/Evento'
+import Pedido from '../pages/Pedido'
+import Confirmacao from '../pages/Confirmacao'
 
 function AppRoutes() {
   return (
@@ -19,6 +21,8 @@ function AppRoutes() {
         <Route path="/premios" element={<Premios />} />
         <Route path="/cartelas" element={<Cartelas />} />
         <Route path="/evento" element={<Evento />} />
+        <Route path="/pedido" element={<Pedido />} />
+        <Route path="/confirmacao" element={<Confirmacao />}/>
         <Route
           path="*"
           element={

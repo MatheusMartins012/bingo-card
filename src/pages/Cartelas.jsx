@@ -1,45 +1,39 @@
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { cartelas } from '../data/cartelas'
 
-const cartelas = [
-  {
-    id: 1,
-    nome: 'Cartela individual',
-    descricao: 'Ideal para começar a participar.',
-    preco: 10,
-    destaque: false,
-  },
-  {
-    id: 2,
-    nome: 'Pacote especial',
-    descricao: 'Mais oportunidades em um único pedido.',
-    preco: 40,
-    destaque: true,
-  },
-  {
-    id: 3,
-    nome: 'Pacote família',
-    descricao: 'Uma opção para compartilhar a diversão.',
-    preco: 70,
-    destaque: false,
-  },
-
-  {
-    id: 4,
-    nome: "vip",
-    descricao: "Apenas para clientes especiais.",
-    preco: 100,
-    destaque: false,
-  }
-]
+const quantidadesIniciais = Object.fromEntries(
+  cartelas.map((cartela) => [cartela.id, 0]),
+)
 
 function Cartelas() {
-  const [quantidades, setQuantidades] = useState({
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
+  const navigate = useNavigate()
+  const [quantidades, setQuantidades] = useState(() => {
+    const dadosSalvos = localStorage.getItem('bingo-quantidades')
+
+    if (!dadosSalvos) {
+      return quantidadesIniciais
+    }
+
+    try {
+      return {
+        ...quantidadesIniciais,
+        ...JSON.parse(dadosSalvos),
+      }
+    } catch {
+      return quantidadesIniciais
+    }
+
+
   })
+
+  useEffect(() => {
+    localStorage.setItem(
+      'bingo-quantidades',
+      JSON.stringify(quantidades),
+    )
+  }, [quantidades])
 
   function aumentarQuantidade(id) {
     setQuantidades((quantidadesAtuais) => ({
@@ -56,14 +50,8 @@ function Cartelas() {
   }
 
 
-  function zerarQuantidade(id) {
-    setQuantidades({
-      1: 0,
-      2: 0,
-      3: 0,
-      4: 0,
-    }
-    )
+  function zerarQuantidade() {
+    setQuantidades(quantidadesIniciais)
   }
 
   const totalItens = cartelas.reduce(
@@ -76,6 +64,16 @@ function Cartelas() {
       total + cartela.preco * quantidades[cartela.id],
     0,
   )
+
+  function continuarPedido() {
+    if (totalItens === 0) {
+      alert('Selecione pelo menos uma cartela.')
+      return
+    }
+
+    navigate('/pedido')
+  }
+
 
   const formatarMoeda = (valor) =>
     valor.toLocaleString('pt-BR', {
@@ -210,13 +208,7 @@ function Cartelas() {
 
                 <button
                   type="button"
-                  onClick={() => {
-                    if (totalItens == 0) {
-                      alert("Por favor, selecione ao menos um item para continuar.");
-                      return;
-                    }
-                    alert(`Pedido demonstrativo: ${formatarMoeda(valorTotal)}`);
-                  }}
+                  onClick={continuarPedido}
                   className="mt-4 w-full rounded-xl bg-amber-400 px-6 py-3 font-bold text-slate-950 transition hover:bg-amber-300 disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto cursor-pointer"
                 >
                   Continuar
