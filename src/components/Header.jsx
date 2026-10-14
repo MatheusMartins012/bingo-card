@@ -10,7 +10,7 @@ function Header() {
 
   return (
     <header className="relative z-50 border-b border-white/10 bg-slate-950 text-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
         {/* Logo */}
         <Link
           to="/"
